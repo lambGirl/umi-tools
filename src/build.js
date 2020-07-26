@@ -1,17 +1,30 @@
+
+// babel库
 const babel = require('@babel/core');
+// node命令转化成对象
 const yParser = require('yargs-parser');
+//  文件路径
 const { join, extname, sep } = require('path');
+// 文件流读取
 const { existsSync, statSync, readdirSync } = require('fs');
+// 来自Node.js的assert模块，断言(assert)
 const assert = require('assert');
+// 日志
 const log = require('./utils/log');
+// 将Windows反斜杠路径转换为斜杠路径：foo \\ bar➔foo / bar
 const slash = require('slash2');
+//  Terminal 字符串样式输出包
 const chalk = require('chalk');
+// 节点的UNIX命令rm -rf。使用npm install rimraf安装，或将rimraf.js放到某个地方。
 const rimraf = require('rimraf');
 const vfs = require('vinyl-fs');
+// 围绕Node.js Streams.Transform（Streams2 / 3）的小包装，以避免显式子类化噪音
 const through = require('through2');
+// node.js fs.watch / fs.watchFile / FSEvents周围的整洁包装
 const chokidar = require('chokidar');
-
+// cwd是指当前node命令执行时所在的文件夹目录；
 const cwd = process.cwd();
+
 let pkgCount = null;
 
 function getBabelConfig(isBrowser, path) {
@@ -68,10 +81,17 @@ function transform(opts = {}) {
     filename: path,
   }).code;
 }
-
+/**
+ * 
+ * @param {*} dir：路径
+ * @param {*} opts:  参数
+ */
 function build(dir, opts = {}) {
+  // node的命令路径， watch配置
   const { cwd, watch } = opts;
+  // 采用断言验证， 如果不是以/开头
   assert(dir.charAt(0) !== '/', `dir should be relative`);
+  
   assert(cwd, `opts.cwd should be supplied`);
 
   const pkgPath = join(cwd, dir, 'package.json');
@@ -138,15 +158,20 @@ function build(dir, opts = {}) {
     }
   });
 }
-
+// 验证是否在lerna的包管理工具内
 function isLerna(cwd) {
   return existsSync(join(cwd, 'lerna.json'));
 }
 
-// Init
+// node的命令读取
 const args = yParser(process.argv.slice(3));
+
+// 检测是否剋起啦watch监控
 const watch = args.w || args.watch;
+
+// 如果是在lerna的包管理下
 if (isLerna(cwd)) {
+  // 读取packages包下的文件路径个数不包含.文件
   const dirs = readdirSync(join(cwd, 'packages'))
     .filter(dir => dir.charAt(0) !== '.');
   pkgCount = dirs.length;
