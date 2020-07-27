@@ -1,4 +1,5 @@
 
+// 将字符串数据以，分割组装成json数据
 module.exports = function(globals) {
   return globals
     .split(',')

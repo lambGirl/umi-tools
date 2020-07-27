@@ -6,6 +6,9 @@ const signale = require('signale');
 const yParser = require('yargs-parser');
 
 // 获取参数对象
+/**
+ * process.argv: 第一个值，node的执行路径； 第2个值： 执行的文件路径；  (第三个值是传入的命令)
+ */
 const args = yParser(process.argv.slice(2));
 
 if (args.v || args.version) {
@@ -19,7 +22,7 @@ switch (args._[0]) {
   case 'build':
   // 项目测试
   case 'test':
-  
+
   // 项目打包
   case 'rollup':
     require(`./src/${args._}`);

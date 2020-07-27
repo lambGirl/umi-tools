@@ -91,7 +91,7 @@ function transform(opts = {}) {
   const isBrowser = browserFiles && browserFiles.includes(slash(path).replace(`${addLastSlash(slash(root))}`, ''));
   // 获取babel配置
   const babelConfig = getBabelConfig(isBrowser, path);
-  
+
   log.transform(
     chalk[isBrowser ? 'yellow' : 'blue'](
       `${slash(path).replace(`${cwd}/`, '')}`,
@@ -104,7 +104,7 @@ function transform(opts = {}) {
   }).code;
 }
 /**
- * 
+ *
  * @param {*} dir：路径
  * @param {*} opts:  参数
  */
@@ -193,7 +193,7 @@ function isLerna(cwd) {
 // node的命令读取
 const args = yParser(process.argv.slice(3));
 
-// 检测是否剋起啦watch监控
+// 检测是否开启watch监控
 const watch = args.w || args.watch;
 
 // 如果是在lerna的包管理下
